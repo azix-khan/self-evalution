@@ -2,8 +2,6 @@ import 'package:evalution/ui/auth/verify_code.dart';
 import 'package:evalution/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_firebase/ui/auth/verify_code.dart';
-// import 'package:flutter_firebase/utils/utils.dart';
 
 import '../../widgets/round_button.dart';
 
@@ -40,19 +38,19 @@ class _LoginWithPhoneNumberState extends State<LoginWithPhoneNumber> {
                 hintText: '+92 313 999 07 58',
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),

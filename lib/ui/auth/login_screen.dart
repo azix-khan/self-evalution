@@ -1,7 +1,7 @@
 import 'package:evalution/ui/auth/login_with_phone_number.dart';
 import 'package:evalution/ui/auth/signup_screen.dart';
+import 'package:evalution/ui/firestore/firestore_list_screen.dart';
 import 'package:evalution/ui/forgot_password.dart';
-import 'package:evalution/ui/posts/post_screen.dart';
 import 'package:evalution/utils/utils.dart';
 import 'package:evalution/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -42,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
     )
         .then((value) {
       Utils().toastMessage(value.user!.email.toString());
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const PostScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const FireStoreScreen()));
       setState(() {
         loading = false;
       });
@@ -64,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Login'),
           centerTitle: true,
@@ -77,53 +77,55 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Form(
                 key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'Email',
-                        prefixIcon: Icon(Icons.email_outlined),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          prefixIcon: Icon(Icons.email_outlined),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.orange,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Email Required';
+                          }
+                          return null;
+                        },
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Email Required';
-                        }
-                        // String pattern =
-                        //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                        // RegExp regex = RegExp(pattern);
-                        // if (!(regex.hasMatch(value))) {
-                        //   return 'Invalid Email';
-                        // }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Password',
-                        prefixIcon: Icon(Icons.lock_open),
+                      const SizedBox(
+                        height: 20,
                       ),
-                      keyboardType: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Password Required';
-                        }
-                        // String pattern =
-                        //     r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)";
-                        // RegExp regex = RegExp(pattern);
-                        // if (!(regex.hasMatch(value))) {
-                        //   return 'Use spacial characters and numbers';
-                        // }
-                        return null;
-                      },
-                    ),
-                  ],
+                      TextFormField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          prefixIcon: Icon(Icons.lock_open),
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.orange,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                        ),
+                        keyboardType: TextInputType.visiblePassword,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Password Required';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
@@ -152,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
               InkWell(
                 onTap: () {

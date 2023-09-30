@@ -49,7 +49,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     'id': id,
                     'title': postController.text.toString(),
                   }).then((value) {
-                    Utils().toastMessage('Post Added');
+                    Utils().toastMessage('Post Added.');
                     setState(() {
                       loading = false;
                     });

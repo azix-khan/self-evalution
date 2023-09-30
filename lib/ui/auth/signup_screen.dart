@@ -21,13 +21,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
   }
 
-  void SignUp(){
+  void SignUp() {
     setState(() {
       loading = true;
     });
@@ -40,14 +39,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         loading = false;
       });
-    })
-        .onError((error, stackTrace) {
+    }).onError((error, stackTrace) {
       Utils().toastMessage(error.toString());
       setState(() {
         loading = false;
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,18 +69,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Email',
                       prefixIcon: Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.orange,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Email Required';
                       }
-                      // String pattern =
-                      //     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                      // RegExp regex = RegExp(pattern);
-                      // if (!(regex.hasMatch(value))) {
-                      //   return 'Invalid Email';
-                      // }
                       return null;
                     },
                   ),
@@ -94,18 +92,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     decoration: const InputDecoration(
                       hintText: 'Password',
                       prefixIcon: Icon(Icons.lock_open),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.orange,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
                     ),
                     keyboardType: TextInputType.visiblePassword,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Password Required';
                       }
-                      // String pattern =
-                      //     r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)";
-                      // RegExp regex = RegExp(pattern);
-                      // if (!(regex.hasMatch(value))) {
-                      //   return 'Use spacial characters and numbers';
-                      // }
                       return null;
                     },
                   ),

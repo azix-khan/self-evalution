@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evalution/ui/firestore/add_firestore_data.dart';
+import 'package:evalution/ui/upload_image.dart';
 import 'package:flutter/material.dart';
 import 'package:evalution/ui/auth/login_screen.dart';
 import 'package:evalution/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
 
 class FireStoreScreen extends StatefulWidget {
   const FireStoreScreen({Key? key}) : super(key: key);
@@ -17,6 +22,8 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
   final editController = TextEditingController();
   final CollectionReference ref =
       FirebaseFirestore.instance.collection('users');
+  File? _image;
+  final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +36,12 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
           IconButton(
             onPressed: () {
               auth.signOut().then((value) {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
               }).catchError((error) {
                 Utils().toastMessage(error.toString());
               });
@@ -63,9 +74,11 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
-              if (snapshot.hasError) return const Text('Some Error');
+              if (snapshot.hasError) {
+                return const Center(child: Text('Some Error'));
+              }
               return Expanded(
                 child: ListView.builder(
                   itemCount: snapshot.data!.docs.length,
@@ -73,6 +86,42 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
                     var docData = snapshot.data!.docs[index].data()
                         as Map<String, dynamic>;
                     return ListTile(
+                      leading: InkWell(
+                        onTap: () async {
+                          final selectedImage = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UploadImageScreen(
+                                onImageSelected: (image) {
+                                  setState(() {
+                                    _image = image;
+                                  });
+                                },
+                              ),
+                            ),
+                          );
+
+                          if (selectedImage != null) {
+                            setState(() {
+                              _image = selectedImage;
+                            });
+                          }
+                        },
+                        child: CircleAvatar(
+                          child: _image != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    _image!,
+                                    fit: BoxFit.cover,
+                                    width: 200,
+                                    height: 200,
+                                  ),
+                                )
+                              : const Center(
+                                  child: Icon(Icons.add_a_photo_outlined),
+                                ),
+                        ),
+                      ),
                       title: Text(docData['title'].toString()),
                       subtitle: Text(docData['id'].toString()),
                       trailing: PopupMenuButton(
@@ -83,7 +132,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
                             child: ListTile(
                               onTap: () {
                                 Navigator.pop(context);
-                                ShowMyDialog(
+                                showMyDialog(
                                     docData['title'], docData['id'].toString());
                               },
                               title: const Text('Edit'),
@@ -95,7 +144,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
                             child: ListTile(
                               onTap: () {
                                 Navigator.pop(context);
-                                ShowMyDialogForDelete(docData['id'].toString());
+                                showMyDialogForDelete(docData['id'].toString());
                               },
                               title: const Text('Delete'),
                               leading: const Icon(Icons.delete),
@@ -114,7 +163,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
     );
   }
 
-  Future<void> ShowMyDialog(String title, String id) async {
+  Future<void> showMyDialog(String title, String id) async {
     editController.text = title;
     showDialog(
       context: context,
@@ -154,7 +203,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
     );
   }
 
-  Future<void> ShowMyDialogForDelete(String id) async {
+  Future<void> showMyDialogForDelete(String id) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {

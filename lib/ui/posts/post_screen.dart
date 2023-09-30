@@ -21,7 +21,6 @@ class _PostScreenState extends State<PostScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -116,7 +115,7 @@ class _PostScreenState extends State<PostScreen> {
                                   child: ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      ShowMyDialog(
+                                      showMyDialog(
                                           title,
                                           snapshot
                                               .child('id')
@@ -132,7 +131,7 @@ class _PostScreenState extends State<PostScreen> {
                                   child: ListTile(
                                     onTap: () {
                                       Navigator.pop(context);
-                                      ShowMyDialogForDelete(snapshot
+                                      showMyDialogForDelete(snapshot
                                           .child('id')
                                           .value
                                           .toString());
@@ -160,7 +159,7 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  Future<void> ShowMyDialog(String title, String id) async {
+  Future<void> showMyDialog(String title, String id) async {
     editController.text = title;
     return showDialog(
         context: context,
@@ -197,7 +196,7 @@ class _PostScreenState extends State<PostScreen> {
         });
   }
 
-  Future<void> ShowMyDialogForDelete(String id) async {
+  Future<void> showMyDialogForDelete(String id) async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {

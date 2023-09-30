@@ -43,19 +43,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                 hintText: '6 digit code',
                 focusedBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 border: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(
-                    color: Colors.deepPurple,
+                    color: Colors.orange,
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),

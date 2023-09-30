@@ -12,9 +12,8 @@ class _SplashScreenState extends State<SplashScreen> {
   SplashServices splashServices = SplashServices();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    splashServices.IsLogin(context);
+    splashServices.isLogin(context);
   }
 
   @override
@@ -22,8 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       body: Center(
         child: Text(
-          'EVALUTION',
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          'Self Evalution',
+          style: TextStyle(
+              fontSize: 30, fontWeight: FontWeight.bold, color: Colors.orange),
         ),
       ),
     );
